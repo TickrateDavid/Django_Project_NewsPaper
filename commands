@@ -1,0 +1,16 @@
+from newapp.models import *
+u1 = User.objects.create_user(username "Sem")
+v1 = User.objects.create_user(username "Sam")
+...
+Author.objects.create(authorUser=u1)
+Category.objects.create(name="News")
+author = Author.objects.get(id=1)
+Post.objects.create(author=author, categoryType="NW", titke="sometitle", text="somebigtext")
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Authoe.objects.get(id=1).authorUser, text="anytextbyauthor')
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Author.objects.get(id=1)
+a = Author.objects.get(id=1)
+a.update_rating()
+a = Author.objects.order_by(-'ratingAuthor')[:1]
