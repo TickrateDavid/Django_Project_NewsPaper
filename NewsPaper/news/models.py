@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.validators import MinValueValidator
 
 
 class Author(models.Model):
@@ -30,9 +31,10 @@ class Post(models.Model):
     NEWS = 'NW'
     ARTICLE = 'AR'
     CATEGORY_CHOICES = (
-        (NEWS, 'Новость')
-        (ARTICLE, 'Статья')
+        (NEWS, "Новость"),
+        (ARTICLE, "Статья")
     )
+
     categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
     dateCreation = models.DateTimeField(auto_now_add=True)
     postCategory = models.ManyToManyField(Category, through='PostCategory')
@@ -71,3 +73,30 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+
+
+class News(models.Model):
+    name = models.CharField(
+        max_length=50,
+        unique=True,
+    )
+    description = models.TextField()
+
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='news',
+    )
+
+    def __str__(self):
+        return f'{self.name.title()}: {self.description[:20]}'
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name.title()
